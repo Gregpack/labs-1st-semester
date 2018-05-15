@@ -1,5 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+int compare (const void * a, const void * b)
+{
+    return ( *(char*)a - *(char*)b );
+}
+
 void swapbiggest(int count, char *nmb) {
     int i=count+1,  mini;
     char min=127;
@@ -7,7 +13,7 @@ void swapbiggest(int count, char *nmb) {
     int n=strlen(nmb);
     for (i; i<n; i++){
         if (nmb[i]<min && nmb[i]>min1){
-          min=nmb[i];
+            min=nmb[i];
             mini=i;
         }
     }
@@ -35,7 +41,7 @@ int algo (char *nmb)
     for (i; i>-1; i--) {
         if (nmb[i] < nmb[i + 1]) {
             swapbiggest (i, nmb);
-            swaptail(i + 1, nmb);
+            qsort (nmb + i + 1, strlen(nmb) - i - 1, sizeof(char), compare);
             return 0;
         }
     }
@@ -47,8 +53,9 @@ int main(int argc, char *argv[]) {
         scanf("%s", nmb);
     else
         strcpy (nmb, argv [1]);
-    while (algo(nmb)!=1)
+    do
         puts(nmb);
+    while (algo(nmb)!=1);
     printf ("end");
     return 0;
 }
